@@ -16,20 +16,27 @@ var storage = multer.diskStorage({
 
 var upload = multer({ storage: storage });
 
-
 router.post('/', upload.single('file'), function (req, res) {
-        if(req.file !==  undefined){
-
+    if(req.file !==  undefined){
 	res.json({
-            success: true,
-	    filename: req.file.filename, 
-            message: 'Image uploaded!'
-        });
+        success: true,
+	    message: 'Image uploaded!',
+        "responseObject": {
+            "count": 1,
+                 "data": [
+                 {
+                "kind": "filename",
+                "filename": req.file.filename
+                }
+                ]
+        }
+    });
 	} else {
-	res.json({
+	    res.json({
             success: false,
-            message: 'Unable to upload file'
+            message: 'Unable to upload file',
+	
         });
-	}
-});
+    }
+})
 module.exports = router;
