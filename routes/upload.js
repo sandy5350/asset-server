@@ -4,7 +4,7 @@ var multer = require('multer');
 
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, 'uploads/')
+        cb(null, 'public/uploads/')
     },
     filename: function (req, file, cb) {
 	let filename = file.originalname
@@ -19,7 +19,7 @@ router.post('/', upload.single('file'), function (req, res) {
 	res.json({
         success: true,
 	    message: 'Image uploaded!',
-        "responseObject": {
+	    "responseObject": {
             "count": 1,
                  "data": [
                  {
