@@ -1,15 +1,13 @@
 var express = require('express');
 var router = express.Router();
 var multer = require('multer');
-var randomstring = require('randomstring');
 
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, 'uploads/')
     },
     filename: function (req, file, cb) {
-        let ext = file.mimetype.split('/')[1]
-	let filename = `${randomstring.generate()}.${ext}`
+	let filename = file.originalname
 	cb(null, filename)
     }
 });
