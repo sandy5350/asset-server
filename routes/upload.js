@@ -1,13 +1,15 @@
 var express = require('express');
 var router = express.Router();
 var multer = require('multer');
+var randomstring = require('randomstring');
 
 var storage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, 'public/uploads/')
     },
     filename: function (req, file, cb) {
-	let filename = file.originalname
+        let ext = file.mimetype.split('/')[1]
+	let filename = `${randomstring.generate()}.${ext}`
 	cb(null, filename)
     }
 });
@@ -19,12 +21,13 @@ router.post('/', upload.single('file'), function (req, res) {
 	res.json({
         success: true,
 	    message: 'Image uploaded!',
-	    "responseObject": {
+        responseObject: {
             "count": 1,
                  "data": [
                  {
                 "kind": "filename",
-                "filename": req.file.filename
+                "filename": req.file.filename,
+                "access-path": `http://localhost:4000/uploads/${req.file.filename}`
                 }
                 ]
         }
